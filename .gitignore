@@ -1,6 +1,8 @@
 # Customise
 vpc-4subnets.yaml
-
+data-*
+Results*
+temp_*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

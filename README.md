@@ -394,18 +394,33 @@ sudo mount -a
 sudo chown  ec2-user:ec2-user /mnt/efs
 ```
 # 検証準備
-## (1) 検証ツールの準備
+## (1) SSDの初期化
+```shell
+PARTITION=/dev/nvme1n1
+sudo mkfs.xfs ${PARTITION}
+sleep 3
+PARTITION_UUID=$(sudo blkid -o value ${PARTITION} |head -n 1)
+echo $PARTITION_UUID
+
+sudo mkdir /data
+sudo sh -c "echo UUID=${PARTITION_UUID} /data xfs defaults,noatime  1   1 >> /etc/fstab"
+sudo mount -a
+
+sudo chown ec2-user:ec2-user /data
+```
+## (2) 検証ツールの準備
 ```shell
 sudo yum -y install git python3
 git clone https://github.com/Noppy/EFS_ResponseMeasurement.git
-
-
 ```
-## (2) 検証用データの作成
+## (3) 検証用データの作成
 ```shell
-dd if=/dev/urandom of=data-0010KiB.dat bs=1024 count=10
-dd if=/dev/urandom of=data-0100KiB.dat bs=1024 count=100
-dd if=/dev/urandom of=data-1000KiB.dat bs=1024 count=1000
+dd if=/dev/urandom of=data-0010KiB-1.dat bs=1024 count=10
+dd if=/dev/urandom of=data-0010KiB-2.dat bs=1024 count=10
+dd if=/dev/urandom of=data-0100KiB-1.dat bs=1024 count=100
+dd if=/dev/urandom of=data-0100KiB-2.dat bs=1024 count=100
+dd if=/dev/urandom of=data-1000KiB-1.dat bs=1024 count=1000
+dd if=/dev/urandom of=data-1000KiB-2.dat bs=1024 count=1000
 ```
 
 ## (3) 検証ツール時刻用
