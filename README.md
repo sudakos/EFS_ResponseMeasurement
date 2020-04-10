@@ -9,7 +9,6 @@ EFSのファイルRead/Writreレスポンス測定
 * gitがインストールされていること
 * aws-cliのセットアップ
 * AdministratorAccessポリシーが付与され実行可能な、aws-cliのProfileの設定
-*
 ### (1)-(b)ツールのclone
 環境構築様に資源をcloneする
 ```shell
