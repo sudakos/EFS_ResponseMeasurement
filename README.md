@@ -1,5 +1,6 @@
 # EFS_ResponseMeasurement
 EFSのファイルRead/Writreレスポンス測定
+<img src="./Documents/arch.png" whdth=500>
 
 # 検証環境準備
 ## (1)事前設定
@@ -411,6 +412,7 @@ sudo chown ec2-user:ec2-user /data
 ```shell
 sudo yum -y install git python3
 git clone https://github.com/Noppy/EFS_ResponseMeasurement.git
+cd EFS_ResponseMeasurement/
 ```
 ## (3) 検証用データの作成
 ```shell
@@ -421,8 +423,34 @@ dd if=/dev/urandom of=data-0100KiB-2.dat bs=1024 count=100
 dd if=/dev/urandom of=data-1000KiB-1.dat bs=1024 count=1000
 dd if=/dev/urandom of=data-1000KiB-2.dat bs=1024 count=1000
 ```
-
-## (3) 検証ツール時刻用
+## (４) 検証
+### (4)-(a)Write検証 
 ```shell
+#ファイルをローカルからNFSサーバ(NFSサーバ,EFSそれぞれ)にコピー
+./FileCopyTest.py copy_list_write.csv 
+```
+### (4)-(b)Read検証
+```shell
+#キャッシュをクリアするため、umount&mountを実施
+sudo umount -a
+sudo mount -a
+
+#ファイルをNFSサーバ(NFSサーバ,EFSそれぞれ)からローカルにコピー
+./FileCopyTest.py copy_list_read.csv
+```
+### (5) 検証結果
+- 検証結果は、<code>cat ResultsDetail_xxxx_YYYYMMDD_HHMMSS.csv</code>に登録されています
+- それぞれの値は以下の通りです
+    - 1st Field: The 1st Source File Path
+    - 2nd Field: The 2nd Source File Path
+    - 3rd Field: Destination Path
+    - Task start time
+    - Time to start copying the 1st file based on the test program (parent program) start time (msec)
+    - Time to finish copying the 1st file based on the test program (parent program) start time (msec)
+    - Time to finish copying the 2nd file based on the test program (parent program) start time (msec)
+    - Result of task(Success or Failed)
+    - Error message when task becomes Failed
+
+
 
 
