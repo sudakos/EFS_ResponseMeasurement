@@ -131,7 +131,7 @@ CLIENT_SG_ID=$(aws --profile ${PROFILE} --region ${REGION}  --output text \
 
 aws --profile ${PROFILE} --region ${REGION} \
     ec2 create-tags \
-        --resources ${VCLIENT_SG_ID} \
+        --resources ${CLIENT_SG_ID} \
         --tags "Key=Name,Value=ClientSG" ;
 
 aws --profile ${PROFILE} --region ${REGION}  \
