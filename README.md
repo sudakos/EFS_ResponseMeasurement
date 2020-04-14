@@ -344,7 +344,7 @@ aws --profile ${PROFILE} --region ${REGION} \
         --security-groups ${SERVER_SG_ID}
 
 #下記のEFS Filesystem IDをメモしておく
-echo "EFS_FS_ID=${EFS_FS_ID}"
+echo "EFS_FS_ID=$EFS_FS_ID"
 ```
 ### (5) NFSクライアント
 ### (5)-(1) NFSクライアントの接続とCLIの初期化
